@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+}
+* #site-content {
+  text-align: center;
+  width: 100%;
+}
+* #site-content #form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+* #site-content #form textarea.site-code {
+  width: 80%;
+  height: 70%;
+}
+
+/*# sourceMappingURL=style.css.map */

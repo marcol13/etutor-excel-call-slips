@@ -1,0 +1,29 @@
+@mixin flexbox-declaration-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font:{
+        family: 'Raleway', sans-serif;
+    }
+
+    #site-content{
+        text-align: center;
+        width: 100%;
+        
+        #form{
+            @include flexbox-declaration-center;
+            
+            textarea.site-code{
+                width: 80%;
+                height: 70%;
+            }
+        }
+    }
+}
