@@ -1,15 +1,3 @@
-// String.prototype.lastSearch = function(find){
-//     var lastIndex = -1
-//     var str = this
-//     while(str.search(find) != -1){
-//         lastIndex = str.search(find)
-//         str = str.slice(lastIndex)
-//     }
-//     return lastIndex
-// }
-
-
-
 function getText(){
     return document.querySelector("textarea.site-code").value
 } 
@@ -38,12 +26,10 @@ function reduceCode(str){
         indexE = str.indexOf("</p>", indexB)
         temp = str.slice(indexB, indexE)
         result += temp
-        //console.log(temp)
         str = str.slice(indexE)
     }
     return result
 }
-//code = reduceCode(code)
 
 function deleteUnwanted(str){
     signs = [`=`, `↵`]
@@ -75,12 +61,7 @@ function deleteUnwanted(str){
             text = text.slice(lastIndex + 1)
         }
         return maxIndex > 0 ? maxIndex : lastIndex
-        }
-
-    //str.lastSearch(carReturn)
-    
-    // let indexCarReturn = str.lastIndexOf(carReturn)
-    //console.log(indexCar(str))
+    }
     if(indexCar(str) != -1)
         str = str.slice(indexCar(str) + 1)
     return str.trim()
@@ -99,12 +80,7 @@ function toDictionary(str, arr){
         polishTextB = str.indexOf(polishTextBFind) + polishTextBFind.length
         let indexEnd = str.indexOf(polishTextEFind, polishTextB)
         polishText = str.slice(polishTextB, indexEnd)
-
-        // polishText = polishText.replace(`</span>`,"")
-        // polishText = polishText.replace(`=`,"")
         arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(polishText)))
         str = str.slice(indexEnd)
     }
 }
-
-//toDictionary(code, dictionary)
