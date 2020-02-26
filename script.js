@@ -1,12 +1,14 @@
-String.prototype.lastSearch = function(find){
-    var lastIndex = -1
-    var str = this
-    while(str.search(find) != -1){
-        lastIndex = str.search(find)
-        str = str.slice(lastIndex)
-    }
-    return lastIndex
-}
+// String.prototype.lastSearch = function(find){
+//     var lastIndex = -1
+//     var str = this
+//     while(str.search(find) != -1){
+//         lastIndex = str.search(find)
+//         str = str.slice(lastIndex)
+//     }
+//     return lastIndex
+// }
+
+
 
 function getText(){
     return document.querySelector("textarea.site-code").value
@@ -63,13 +65,25 @@ function deleteUnwanted(str){
     }
     str = str.trim()
     const carReturn = new RegExp("\r|\n","g") 
-    let indexCar = str.lastSearch(carReturn)
+    let indexCar = function(text){
+        var lastIndex = -1
+        var maxIndex = 0
+        while(text.search(carReturn) != -1){
+            lastIndex = text.search(carReturn)
+            maxIndex += lastIndex + 1
+            console.log(lastIndex)
+            text = text.slice(lastIndex + 1)
+        }
+        return maxIndex > 0 ? maxIndex : lastIndex
+        }
+
+    //str.lastSearch(carReturn)
     
     // let indexCarReturn = str.lastIndexOf(carReturn)
-    // console.log(indexCarReturn)
-    if(indexCar != -1)
-        str = str.slice(indexCar + 1)
-    return str
+    //console.log(indexCar(str))
+    if(indexCar(str) != -1)
+        str = str.slice(indexCar(str) + 1)
+    return str.trim()
 }
 
 function toDictionary(str, arr){
