@@ -1,5 +1,6 @@
-String.prototype.lastSearch = function(str, find){
+String.prototype.lastSearch = function(find){
     var lastIndex = -1
+    var str = this
     while(str.search(find) != -1){
         lastIndex = str.search(find)
         str = str.slice(lastIndex)
