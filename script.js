@@ -31,9 +31,17 @@ function reduceCode(str){
     return result
 }
 
+function deleteInPolish(str){
+    const signs = [`technical`, `British`, `American`, `informal`, `Canadian`, `Australian`, `New Zealand`, `Scottish`, `South African`, `latin`, `slang`, `formal`, `old-fashioned`, `old use`, `spoken`, `written`, `not polite`, `taboo`, `trademark`, `dialect`, `loan-word`, `humorous`]
+    for(let i of signs){
+        str = str.replace(new RegExp(i ,"g"),"")
+    }
+    return str
+}
+
 function deleteUnwanted(str){
-    signs = [`=`, `↵`, `technical`, `British`, `American`]
-    special = [[`&quot;`,`"`],[`&apos;`,`'`],[]]
+    const signs = [`=`, `↵`]
+    const special = [[`&quot;`,`"`],[`&apos;`,`'`]]
     for(let i of signs){
         str = str.replace(new RegExp(i ,"g"),"")
     }
@@ -57,7 +65,6 @@ function deleteUnwanted(str){
         while(text.search(carReturn) != -1){
             lastIndex = text.search(carReturn)
             maxIndex += lastIndex + 1
-            console.log(lastIndex)
             text = text.slice(lastIndex + 1)
         }
         return maxIndex > 0 ? maxIndex : lastIndex
@@ -70,19 +77,17 @@ function deleteUnwanted(str){
 }
 
 function toDictionary(str, arr){
-    const englishTextBFind = `<span class="hw">`
-    const englishTextEFind = `<`
-    const polishTextBFind = `</a></span></span>`
-    const polishTextEFind = `&nbsp;`
-    console.log(str.indexOf(englishTextBFind))
-    while(str.indexOf(englishTextBFind) != -1 && str.indexOf(polishTextBFind) != -1){
-        console.log(str.indexOf(englishTextBFind) + englishTextBFind.length)
-        englishTextB = str.indexOf(englishTextBFind) + englishTextBFind.length
-        englishText = str.slice(englishTextB,str.indexOf(englishTextEFind,englishTextB))
-        polishTextB = str.indexOf(polishTextBFind) + polishTextBFind.length
-        let indexEnd = str.indexOf(polishTextEFind, polishTextB)
-        polishText = str.slice(polishTextB, indexEnd)
-        arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(polishText)))
+    const eFindBegin = `<span class="hw">`
+    const eFindEnd = `<`
+    const pFindBegin = /<\/span>(\n|\r){2}\s*=/
+    const pFindEnd = `&nbsp;`
+    while(str.indexOf(eFindBegin) != -1 && str.search(pFindBegin) != -1){
+        eTextBegin = str.indexOf(eFindBegin) + eFindBegin.length
+        englishText = str.slice(eTextBegin,str.indexOf(eFindEnd,eTextBegin))
+        pTextBegin = str.search(pFindBegin) + 7
+        let indexEnd = str.indexOf(pFindEnd, pTextBegin)
+        polishText = str.slice(pTextBegin, indexEnd)
+        arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(deleteInPolish(polishText))))
         str = str.slice(indexEnd)
     }
 }
