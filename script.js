@@ -32,7 +32,7 @@ function reduceCode(str){
 }
 
 function deleteUnwanted(str){
-    signs = [`=`, `↵`, `technical`, `British`, `American`]
+    signs = [`=`, `↵`, `technical`, `British`, `American`, `informal`]
     special = [[`&quot;`,`"`],[`&apos;`,`'`],[]]
     for(let i of signs){
         str = str.replace(new RegExp(i ,"g"),"")
@@ -72,16 +72,18 @@ function deleteUnwanted(str){
 function toDictionary(str, arr){
     const englishTextBFind = `<span class="hw">`
     const englishTextEFind = `<`
-    const polishTextBFind = `</a></span></span>`
+    //const polishTextBFind = `</a></span></span>`
+    const polishTextBFind = new RegExp("<\/span>(\n|\r){2}=")
     const polishTextEFind = `&nbsp;`
     console.log(str.indexOf(englishTextBFind))
-    while(str.indexOf(englishTextBFind) != -1 && str.indexOf(polishTextBFind) != -1){
+    while(str.indexOf(englishTextBFind) != -1 && str.search(polishTextBFind) != -1){
         console.log(str.indexOf(englishTextBFind) + englishTextBFind.length)
         englishTextB = str.indexOf(englishTextBFind) + englishTextBFind.length
         englishText = str.slice(englishTextB,str.indexOf(englishTextEFind,englishTextB))
-        polishTextB = str.indexOf(polishTextBFind) + polishTextBFind.length
+        polishTextB = str.search(polishTextBFind) + 6
         let indexEnd = str.indexOf(polishTextEFind, polishTextB)
         polishText = str.slice(polishTextB, indexEnd)
+        console.log(polishText)
         arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(polishText)))
         str = str.slice(indexEnd)
     }
