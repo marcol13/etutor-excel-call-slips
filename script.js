@@ -48,6 +48,8 @@ function deleteUnwanted(str){
         let beginIndex = str.indexOf("<")
         let endIndex = str.indexOf(">")
         str = str.replace(str.substring(beginIndex, endIndex+1),"")
+        console.log(str, beginIndex)
+        console.log(str, endIndex)
     }
     str = str.trim()
     const carReturn = new RegExp("\r|\n","g") 
@@ -73,16 +75,17 @@ function toDictionary(str, arr){
     const englishTextBFind = `<span class="hw">`
     const englishTextEFind = `<`
     //const polishTextBFind = `</a></span></span>`
-    const polishTextBFind = new RegExp("<\/span>(\n|\r){2}=")
+    const polishTextBFind = /<\/span>(\n|\r){2}\s*=/
     const polishTextEFind = `&nbsp;`
     console.log(str.indexOf(englishTextBFind))
     while(str.indexOf(englishTextBFind) != -1 && str.search(polishTextBFind) != -1){
         console.log(str.indexOf(englishTextBFind) + englishTextBFind.length)
         englishTextB = str.indexOf(englishTextBFind) + englishTextBFind.length
         englishText = str.slice(englishTextB,str.indexOf(englishTextEFind,englishTextB))
-        polishTextB = str.search(polishTextBFind) + 6
+        polishTextB = str.search(polishTextBFind) + 7
         let indexEnd = str.indexOf(polishTextEFind, polishTextB)
         polishText = str.slice(polishTextB, indexEnd)
+        console.log(englishText)
         console.log(polishText)
         arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(polishText)))
         str = str.slice(indexEnd)
