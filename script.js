@@ -63,7 +63,9 @@ function deleteUnwanted(str){
         return maxIndex > 0 ? maxIndex : lastIndex
     }
     if(indexCar(str) != -1)
-        str = str.slice(indexCar(str) + 1)
+        str = str.slice(indexCar(str) + 1).trim()
+    if(str[0] == ",")
+        str = str.slice(1)
     return str.trim()
 }
 
