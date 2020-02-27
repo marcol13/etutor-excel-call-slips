@@ -16,6 +16,7 @@ btn.addEventListener("click", () => {
     code = getText()
     code = reduceCode(code)
     toDictionary(code, dictionary)
+    toSheet(dictionary)
 })
 
 function reduceCode(str){
@@ -90,4 +91,32 @@ function toDictionary(str, arr){
         arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(deleteInPolish(polishText))))
         str = str.slice(indexEnd)
     }
+}
+
+function toSheet(arr){
+    var wb = XLSX.utils.book_new()
+    date = new Date()
+    wb.Props = {
+        Title: "eTutor",
+        Subject: "Call slips",
+        Author: "",
+        CreateDate: `${date.getFullYear()},${date.getMonth()},${date.getDate()}`
+    }
+    wb.SheetNames.push("Test Sheet")
+    var ws_data = []
+    for(let i of arr){
+        ws_data.push([i.english,i.polish])
+    }
+    var ws = XLSX.utils.aoa_to_sheet(ws_data)
+    wb.Sheets["Test Sheet"] = ws
+    var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'})
+    
+    function s2ab(s) { 
+        var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+        var view = new Uint8Array(buf);  //create uint8array as viewer
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+        return buf; 
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'callslips.xlsx');   
+
 }
