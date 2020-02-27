@@ -107,10 +107,8 @@ function toSheet(arr){
     for(let i of arr){
         ws_data.push([i.english,i.polish])
     }
-    console.log(ws_data)
     var ws = XLSX.utils.aoa_to_sheet(ws_data)
     wb.Sheets["Test Sheet"] = ws
-
     var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'})
     
     function s2ab(s) { 
