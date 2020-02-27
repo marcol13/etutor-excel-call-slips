@@ -16,6 +16,7 @@ btn.addEventListener("click", () => {
     code = getText()
     code = reduceCode(code)
     toDictionary(code, dictionary)
+    toSheet(dictionary)
 })
 
 function reduceCode(str){
@@ -27,7 +28,6 @@ function reduceCode(str){
         temp = str.slice(indexB, indexE)
         result += temp
         str = str.slice(indexE)
-        toSheet(dictionary)
     }
     return result
 }
@@ -103,7 +103,11 @@ function toSheet(arr){
         CreateDate: `${date.getFullYear()},${date.getMonth()},${date.getDate()}`
     }
     wb.SheetNames.push("Test Sheet")
-    var ws_data = [['hello','world']]
+    var ws_data = [["a","b"],["c","d"]]
+    // for(let i of arr){
+    //     ws_data.push([i.english,i.polish])
+    // }
+    console.log(ws_data)
     var ws = XLSX.utils.aoa_to_sheet(ws_data)
     wb.Sheets["Test Sheet"] = ws
 
@@ -115,6 +119,6 @@ function toSheet(arr){
         for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
         return buf; 
     }
-    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'test.xlsx');   
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'callslips.xlsx');   
 
 }
