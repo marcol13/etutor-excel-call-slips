@@ -32,7 +32,7 @@ function reduceCode(str){
 }
 
 function deleteUnwanted(str){
-    signs = [`=`, `↵`]
+    signs = [`=`, `↵`, `technical`, `British`, `American`]
     special = [[`&quot;`,`"`],[`&apos;`,`'`],[]]
     for(let i of signs){
         str = str.replace(new RegExp(i ,"g"),"")
