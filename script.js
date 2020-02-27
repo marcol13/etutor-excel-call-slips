@@ -77,16 +77,16 @@ function deleteUnwanted(str){
 }
 
 function toDictionary(str, arr){
-    const englishTextBFind = `<span class="hw">`
-    const englishTextEFind = `<`
-    const polishTextBFind = /<\/span>(\n|\r){2}\s*=/
-    const polishTextEFind = `&nbsp;`
-    while(str.indexOf(englishTextBFind) != -1 && str.search(polishTextBFind) != -1){
-        englishTextB = str.indexOf(englishTextBFind) + englishTextBFind.length
-        englishText = str.slice(englishTextB,str.indexOf(englishTextEFind,englishTextB))
-        polishTextB = str.search(polishTextBFind) + 7
-        let indexEnd = str.indexOf(polishTextEFind, polishTextB)
-        polishText = str.slice(polishTextB, indexEnd)
+    const eFindBegin = `<span class="hw">`
+    const eFindEnd = `<`
+    const pFindBegin = /<\/span>(\n|\r){2}\s*=/
+    const pFindEnd = `&nbsp;`
+    while(str.indexOf(eFindBegin) != -1 && str.search(pFindBegin) != -1){
+        eTextBegin = str.indexOf(eFindBegin) + eFindBegin.length
+        englishText = str.slice(eTextBegin,str.indexOf(eFindEnd,eTextBegin))
+        pTextBegin = str.search(pFindBegin) + 7
+        let indexEnd = str.indexOf(pFindEnd, pTextBegin)
+        polishText = str.slice(pTextBegin, indexEnd)
         arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(deleteInPolish(polishText))))
         str = str.slice(indexEnd)
     }
