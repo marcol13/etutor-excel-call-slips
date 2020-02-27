@@ -31,9 +31,17 @@ function reduceCode(str){
     return result
 }
 
+function deleteInPolish(str){
+    const signs = [`technical`, `British`, `American`, `informal`, `Canadian`, `Australian`, `New Zealand`, `Scottish`, `South African`, `latin`, `slang`, `formal`, `old-fashioned`, `old use`, `spoken`, `written`, `not polite`, `taboo`, `trademark`, `dialect`, `loan-word`, `humorous`]
+    for(let i of signs){
+        str = str.replace(new RegExp(i ,"g"),"")
+    }
+    return str
+}
+
 function deleteUnwanted(str){
-    signs = [`=`, `↵`, `technical`, `British`, `American`, `informal`]
-    special = [[`&quot;`,`"`],[`&apos;`,`'`],[]]
+    const signs = [`=`, `↵`]
+    const special = [[`&quot;`,`"`],[`&apos;`,`'`]]
     for(let i of signs){
         str = str.replace(new RegExp(i ,"g"),"")
     }
@@ -57,7 +65,6 @@ function deleteUnwanted(str){
         while(text.search(carReturn) != -1){
             lastIndex = text.search(carReturn)
             maxIndex += lastIndex + 1
-            console.log(lastIndex)
             text = text.slice(lastIndex + 1)
         }
         return maxIndex > 0 ? maxIndex : lastIndex
@@ -80,7 +87,7 @@ function toDictionary(str, arr){
         polishTextB = str.search(polishTextBFind) + 7
         let indexEnd = str.indexOf(polishTextEFind, polishTextB)
         polishText = str.slice(polishTextB, indexEnd)
-        arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(polishText)))
+        arr.push(new CallSlip(deleteUnwanted(englishText), deleteUnwanted(deleteInPolish(polishText))))
         str = str.slice(indexEnd)
     }
 }
